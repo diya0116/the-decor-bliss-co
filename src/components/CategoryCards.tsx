@@ -7,7 +7,7 @@ export default function CategoryCards() {
     <section className="py-16 md:py-24 px-6" aria-label="What We Curate">
       <SectionTitle heading="Curated for Every Celebration" />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {categories.map((cat) => (
           <article
             key={cat.slug}
@@ -18,7 +18,7 @@ export default function CategoryCards() {
               src={cat.image}
               alt={cat.title}
               fill
-              sizes="(max-width: 768px) 50vw, 25vw"
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover md:group-hover:scale-[1.03] transition-transform duration-500"
             />
 
