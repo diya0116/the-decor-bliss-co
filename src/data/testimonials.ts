@@ -21,7 +21,7 @@ export const testimonials: Testimonial[] = [
       "The trousseau packing was absolutely beautiful. Every box looked luxurious and was finished with so much attention to detail. Highly recommended!",
   },
   {
-    name: "Riya",
+    name: "Anish",
     photo: "/client-2.jpg",
     review:
       "Our wedding hampers turned out even better than we imagined. Elegant, premium, and delivered exactly on time. Everyone loved them.",
