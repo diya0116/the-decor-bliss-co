@@ -26,7 +26,7 @@ export default function AboutPage() {
           <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-brown/10">
             {/* Replace with brand image */}
             <Image
-              src="/gallery/about-brand.jpg"
+              src="/about-brand.png"
               alt="THE DECOR BLISS craftsmanship"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -56,45 +56,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Section 2: About the owner */}
-      <section className="py-16 md:py-24 px-6 bg-blush/30" aria-label="About the founder">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-10 md:gap-16 items-center">
-          {/* Left text */}
-          <div className="order-2 md:order-1">
-            <h2 className="font-serif text-2xl md:text-3xl text-brown-dark tracking-wide mb-6">
-              The Heart Behind the Brand
-            </h2>
-            {/* Replace with owner bio */}
-            <p className="text-sm md:text-base leading-relaxed text-text/70 mb-4">
-              Founded with a vision to redefine gifting culture in India,
-              THE DECOR BLISS is led by a passionate creator who blends
-              artistry with attention to detail.
-            </p>
-            <p className="text-sm md:text-base leading-relaxed text-text/70">
-              With years of experience in luxury presentation and event
-              styling, every project is a personal endeavour to make your
-              celebrations unforgettable.
-            </p>
-          </div>
-
-          {/* Right image — diagonal clip */}
-          <div className="order-1 md:order-2">
-            <div
-              className="relative aspect-[3/4] overflow-hidden rounded-xl bg-brown/10"
-              style={{ clipPath: "polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%)" }}
-            >
-              {/* Replace owner photograph */}
-              <Image
-                src="/owner.jpg"
-                alt="Founder of THE DECOR BLISS"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Section 3: Values */}
       <section className="py-16 md:py-24 px-6" aria-label="Our values">

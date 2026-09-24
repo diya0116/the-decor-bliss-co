@@ -1,7 +1,7 @@
 export interface Category {
   title: string;
   slug: string;
-  /** Path to image in /public — Replace with actual product images */
+  /** Path to image in /public */
   image: string;
 }
 
@@ -9,31 +9,31 @@ export const categories: Category[] = [
   {
     title: "Wedding Hampers",
     slug: "wedding-hampers",
-    image: "/gallery/wedding-hampers.jpg", // Replace with actual image
+    image: "/gallery/wedding-hampers.jpeg",
   },
   {
     title: "Trousseau Packing",
     slug: "trousseau-packing",
-    image: "/gallery/trousseau-packing.jpg", // Replace with actual image
+    image: "/gallery/trousseau-packing.jpeg",
   },
   {
     title: "Karva Chauth Hampers",
     slug: "karva-chauth-hampers",
-    image: "/gallery/karva-chauth.jpg", // Replace with actual image
+    image: "/gallery/karva-chauth.jpg",
   },
   {
     title: "Luxury Gift Boxes",
     slug: "luxury-gift-boxes",
-    image: "/gallery/luxury-gift-boxes.jpg", // Replace with actual image
+    image: "/gallery/luxury-gift-boxes.jpg",
   },
   {
-    title: "Bridal Room Decor",
-    slug: "bridal-room-decor",
-    image: "/gallery/bridal-room-decor.jpg", // Replace with actual image
+    title: "Corporate Gifting",
+    slug: "corporate-gifting",
+    image: "/gallery/corporate-gifting.jpeg",
   },
   {
     title: "Festive Gifting",
     slug: "festive-gifting",
-    image: "/gallery/festive-gifting.jpg", // Replace with actual image
+    image: "/gallery/festive-gifting.jpg",
   },
 ];

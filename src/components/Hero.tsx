@@ -1,20 +1,23 @@
+import Image from "next/image";
 import { createWhatsappLink } from "@/lib/whatsapp";
 
 export default function Hero() {
   const enquireLink = createWhatsappLink(undefined, "Wedding / Trousseau");
-  const chatLink = createWhatsappLink();
 
   return (
     <section
       className="relative flex h-[100dvh] items-center justify-center overflow-hidden"
       aria-label="Hero"
     >
-      {/* Replace with hero image */}
-      {/* <Image src="/hero.jpg" alt="THE DECOR BLISS luxury gifting" fill className="object-cover" priority /> */}
-      <div className="absolute inset-0 bg-brown-dark/60" aria-hidden="true" />
-
-      {/* Add hero image here — use a full-bleed background image */}
-      <div className="absolute inset-0 bg-brown/30" aria-hidden="true" />
+      {/* Hero background image */}
+      <Image
+        src="/hero.jpg"
+        alt="THE DECOR BLISS luxury gifting"
+        fill
+        className="object-cover"
+        priority
+      />
+      <div className="absolute inset-0 bg-brown-dark/50" aria-hidden="true" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
@@ -36,13 +39,14 @@ export default function Hero() {
           >
             Enquire Now
           </a>
+          {/* Corporate Gifting PDF — place your PDF at public/corporate-gifting.pdf */}
           <a
-            href={chatLink}
+            href="/corporate-gifting.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-lg border border-blush/40 px-8 text-xs font-semibold uppercase tracking-[0.2em] text-blush hover:bg-blush/10 transition-colors"
           >
-            Chat on WhatsApp
+            Corporate Gifting PDF
           </a>
         </div>
       </div>

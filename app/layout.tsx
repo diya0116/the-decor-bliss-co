@@ -20,12 +20,15 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "THE DECOR BLISS | Luxury Wedding Hampers & Trousseau in Patiala",
+    default: "THE DECOR BLISS",
     template: "%s | THE DECOR BLISS",
   },
   description:
     "Premium trousseau packing, wedding hampers, bridal gifting and luxury personalised gift boxes in Patiala.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

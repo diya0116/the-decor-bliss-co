@@ -31,14 +31,14 @@ export default function Home() {
       {/* 1. Hero */}
       <Hero />
 
-      {/* 2. Instagram Reels */}
+      {/* 2. Karva Chauth Marquee Strip — immediately below hero */}
+      <PromoStrip />
+
+      {/* 3. Instagram Reels */}
       <ReelsSection />
 
-      {/* 3. What We Curate */}
+      {/* 4. What We Curate */}
       <CategoryCards />
-
-      {/* 4. Promotional Strip */}
-      <PromoStrip />
 
       {/* 5. Gallery Preview */}
       <section className="py-16 md:py-24 px-6" aria-label="Gallery Preview">

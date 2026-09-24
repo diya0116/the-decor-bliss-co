@@ -1,24 +1,27 @@
 import { whatsappDirectLink } from "@/lib/whatsapp";
 
+const marqueeText =
+  "SPECIAL KARVA CHAUTH HAMPERS  |  ORDER NOW  |  MAKE KARVA SPECIAL FOR YOUR DIL AND DAUGHTER";
+
 export default function PromoStrip() {
+  /* Repeat text enough times to fill the marquee seamlessly */
+  const repeated = Array(6).fill(marqueeText).join("   •   ");
+
   return (
     <section
-      className="bg-brown py-4 md:py-5"
+      className="bg-brown overflow-hidden py-3 md:py-4"
       aria-label="Promotional announcement"
     >
-      <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-3 px-6">
-        <p className="text-center sm:text-left text-sm md:text-base tracking-wide text-blush/90">
-          Special Karva Chauth Hampers&nbsp;&bull;&nbsp;Limited Orders Open
-        </p>
-        <a
-          href={whatsappDirectLink()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shrink-0 rounded-lg border border-blush/40 px-6 py-2 text-xs uppercase tracking-widest text-blush hover:bg-blush/10 transition-colors"
-        >
-          Order Now
-        </a>
-      </div>
+      <a
+        href={whatsappDirectLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+      >
+        <div className="animate-marquee whitespace-nowrap text-sm md:text-base tracking-wide text-blush/90">
+          {repeated}
+        </div>
+      </a>
     </section>
   );
 }
