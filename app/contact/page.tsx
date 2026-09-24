@@ -5,7 +5,7 @@ import { createWhatsappLink } from "@/lib/whatsapp";
 import { EMAIL, ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, PHONE_DISPLAY, MAPS_URL, WEBSITE_URL } from "@/lib/constants";
 import { whatsappDirectLink } from "@/lib/whatsapp";
 
-const contactCards = [
+const topCards = [
   {
     label: "Phone",
     value: PHONE_DISPLAY,
@@ -13,17 +13,6 @@ const contactCards = [
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
         <path fillRule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clipRule="evenodd" />
-      </svg>
-    ),
-  },
-  {
-    label: "Email",
-    value: EMAIL,
-    href: `mailto:${EMAIL}`,
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
-        <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-        <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
       </svg>
     ),
   },
@@ -49,6 +38,20 @@ const contactCards = [
       </svg>
     ),
   },
+];
+
+const bottomCards = [
+  {
+    label: "Email",
+    value: EMAIL,
+    href: `mailto:${EMAIL}`,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
+        <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+        <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+      </svg>
+    ),
+  },
   {
     label: "Location",
     value: ADDRESS,
@@ -61,6 +64,41 @@ const contactCards = [
     ),
   },
 ];
+
+type ContactCard = (typeof topCards)[number];
+
+function ContactCardItem({ card }: { card: ContactCard }) {
+  const cardContent = (
+    <>
+      <div className="mb-3 text-brown">{card.icon}</div>
+      <h2 className="text-xs uppercase tracking-[0.2em] text-text/50 mb-1">
+        {card.label}
+      </h2>
+      <p className="text-sm text-brown-dark font-medium break-all sm:break-normal">
+        {card.value}
+      </p>
+    </>
+  );
+
+  const cardClass =
+    "flex flex-col items-center justify-center text-center rounded-xl border border-brown/10 bg-white p-6 hover:border-brown/20 hover:shadow-sm transition-all";
+
+  if (card.href) {
+    return (
+      <a
+        href={card.href}
+        className={cardClass}
+        {...(card.external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
+        {cardContent}
+      </a>
+    );
+  }
+
+  return <div className={cardClass}>{cardContent}</div>;
+}
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -86,46 +124,22 @@ export default function ContactPage() {
         <div className="mt-5 mx-auto w-16 h-px bg-brown" aria-hidden="true" />
       </section>
 
-      {/* Contact cards */}
+      {/* Contact cards — 3 top row, 2 wider bottom row */}
       <section className="py-16 md:py-24 px-6" aria-label="Contact information">
-        <div className="mx-auto grid max-w-4xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {contactCards.map((card) => {
-            const cardContent = (
-              <>
-                <div className="mb-3 text-brown">{card.icon}</div>
-                <h2 className="text-xs uppercase tracking-[0.2em] text-text/50 mb-1">
-                  {card.label}
-                </h2>
-                <p className="text-sm text-brown-dark font-medium">
-                  {card.value}
-                </p>
-              </>
-            );
+        <div className="mx-auto max-w-4xl space-y-6">
+          {/* Row 1: 3 cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {topCards.map((card) => (
+              <ContactCardItem key={card.label} card={card} />
+            ))}
+          </div>
 
-            const cardClass =
-              "flex flex-col items-center text-center rounded-xl border border-brown/10 bg-white p-6 hover:border-brown/20 transition-colors";
-
-            if (card.href) {
-              return (
-                <a
-                  key={card.label}
-                  href={card.href}
-                  className={cardClass}
-                  {...(card.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {cardContent}
-                </a>
-              );
-            }
-
-            return (
-              <div key={card.label} className={cardClass}>
-                {cardContent}
-              </div>
-            );
-          })}
+          {/* Row 2: 2 wider cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {bottomCards.map((card) => (
+              <ContactCardItem key={card.label} card={card} />
+            ))}
+          </div>
         </div>
       </section>
 
