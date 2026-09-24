@@ -38,7 +38,7 @@ export default function Testimonials() {
         {testimonials.map((t, i) => (
           <article
             key={i}
-            className="flex-shrink-0 snap-start w-[85vw] md:w-[320px] rounded-xl border border-brown/10 bg-white p-6 md:p-8"
+            className="flex-shrink-0 snap-center w-[85vw] md:w-[420px] rounded-xl border border-brown/10 bg-white p-6 md:p-8"
           >
             {/* Customer photo placeholder */}
             <div className="mb-4 flex items-center gap-4">
@@ -66,9 +66,8 @@ export default function Testimonials() {
           <button
             key={i}
             onClick={() => scrollTo(i)}
-            className={`h-2 w-2 rounded-full transition-colors ${
-              i === active ? "bg-brown" : "bg-brown/20"
-            }`}
+            className={`h-2 w-2 rounded-full transition-colors ${i === active ? "bg-brown" : "bg-brown/20"
+              }`}
             role="tab"
             aria-selected={i === active}
             aria-label={`Go to testimonial ${i + 1}`}

@@ -20,26 +20,26 @@ export interface Reel {
 export const reels: Reel[] = [
   {
     video: "/reels/reel1.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_1_LINK_HERE/",
+    link: "https://www.instagram.com/reel/DdgcN_pSSE0/",
   },
   {
     video: "/reels/reel2.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_2_LINK_HERE/",
+    link: "https://www.instagram.com/reel/DdUJ5dhybdW/",
   },
   {
     video: "/reels/reel3.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_3_LINK_HERE/",
+    link: "https://www.instagram.com/reel/DdoiUafSVEB/",
   },
   {
     video: "/reels/reel4.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_4_LINK_HERE/",
+    link: "https://www.instagram.com/reel/DdZMsn3SCP7/",
   },
   {
     video: "/reels/reel5.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_5_LINK_HERE/",
+    link: "https://www.instagram.com/reel/DdgcN_pSSE0/",
   },
   {
     video: "/reels/reel6.mp4",
-    link: "https://www.instagram.com/reel/PASTE_REEL_6_LINK_HERE/",
+    link: "https://www.instagram.com/reel/Ddl_Xo7yml6/",
   },
 ];

@@ -15,18 +15,21 @@ export interface Testimonial {
  */
 export const testimonials: Testimonial[] = [
   {
-    name: "Client Name 1", // Replace with client name
+    name: "Simran",
     photo: "/client-1.jpg",
-    review: "Paste review text here.", // Replace with actual review
+    review:
+      "The trousseau packing was absolutely beautiful. Every box looked luxurious and was finished with so much attention to detail. Highly recommended!",
   },
   {
-    name: "Client Name 2", // Replace with client name
+    name: "Riya",
     photo: "/client-2.jpg",
-    review: "Paste review text here.", // Replace with actual review
+    review:
+      "Our wedding hampers turned out even better than we imagined. Elegant, premium, and delivered exactly on time. Everyone loved them.",
   },
   {
-    name: "Client Name 3", // Replace with client name
+    name: "Mehak",
     photo: "/client-3.jpg",
-    review: "Paste review text here.", // Replace with actual review
+    review:
+      "From the color palette to the final styling, everything felt so thoughtfully curated. The Decor Bliss made our gifts look truly special.",
   },
 ];

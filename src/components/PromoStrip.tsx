@@ -1,11 +1,11 @@
 import { whatsappDirectLink } from "@/lib/whatsapp";
 
 const marqueeText =
-  "SPECIAL KARVA CHAUTH HAMPERS  |  ORDER NOW  |  MAKE KARVA SPECIAL FOR YOUR DIL AND DAUGHTER";
+  "Karva Chauth Hampers  |  Thoughtfully curated for your daughter & daughter-in-law  |  Luxury Karva Chauth Hampers";
 
 export default function PromoStrip() {
   /* Repeat text enough times to fill the marquee seamlessly */
-  const repeated = Array(6).fill(marqueeText).join("   •   ");
+  const repeated = Array(6).fill(marqueeText).join("  |  ");
 
   return (
     <section

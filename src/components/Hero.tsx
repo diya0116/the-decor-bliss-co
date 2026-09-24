@@ -6,7 +6,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex h-[100dvh] items-center justify-center overflow-hidden"
+      className="relative flex h-[82svh] min-h-[620px] items-center justify-center overflow-hidden"
       aria-label="Hero"
     >
       {/* Hero background image */}

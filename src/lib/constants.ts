@@ -5,7 +5,7 @@ export const SITE_NAME = "THE DECOR BLISS";
 export const WHATSAPP_NUMBER = "917889034843";
 
 export const INSTAGRAM_HANDLE = "theblissdecor.co";
-export const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_HANDLE}`;
+export const INSTAGRAM_URL = `https://www.instagram.com/thedecorbliss.co/`;
 
 export const EMAIL = "thedecorbliss.co@gmail.com";
 
