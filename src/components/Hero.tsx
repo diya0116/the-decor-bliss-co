@@ -21,7 +21,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl tracking-wide text-blush leading-tight">
+        <h1 className="font-sans font-bold text-4xl md:text-6xl lg:text-7xl tracking-wide text-blush leading-tight">
           THE DECOR BLISS
         </h1>
 

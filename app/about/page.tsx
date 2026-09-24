@@ -23,14 +23,14 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 px-6" aria-label="About the brand">
         <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           {/* Left image */}
-          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-brown/10">
+          <div className="relative aspect-square w-full max-w-[420px] mx-auto overflow-hidden rounded-2xl bg-brown/10">
             {/* Replace with brand image */}
             <Image
               src="/about-brand.png"
               alt="THE DECOR BLISS craftsmanship"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              sizes="(max-width: 768px) 90vw, 420px"
+              className="object-cover object-center scale-150"
             />
           </div>
 

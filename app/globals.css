@@ -11,7 +11,7 @@
 
   /* Fonts */
   --font-sans: var(--font-montserrat);
-  --font-serif: var(--font-cormorant);
+  --font-serif: var(--font-montserrat);
 
   /* Marquee animation */
   --animate-marquee: marquee 30s linear infinite;
