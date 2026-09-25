@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { createWhatsappLink } from "@/lib/whatsapp";
+import { useState, useEffect, useRef, type FormEvent } from "react";
 import { EMAIL, ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, PHONE_DISPLAY, MAPS_URL, WEBSITE_URL } from "@/lib/constants";
-import { whatsappDirectLink } from "@/lib/whatsapp";
+
+/* ─── Contact Info Cards (untouched) ─── */
 
 const topCards = [
   {
@@ -100,19 +100,209 @@ function ContactCardItem({ card }: { card: ContactCard }) {
   return <div className={cardClass}>{cardContent}</div>;
 }
 
+/* ─── Star Rating Component ─── */
+
+function StarRating({
+  value,
+  onChange,
+  readOnly = false,
+  size = "md",
+}: {
+  value: number;
+  onChange?: (v: number) => void;
+  readOnly?: boolean;
+  size?: "sm" | "md";
+}) {
+  const [hover, setHover] = useState(0);
+  const sizeClass = size === "sm" ? "h-4 w-4" : "h-6 w-6";
+
+  return (
+    <div className="flex gap-1" role="group" aria-label="Star rating">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          type="button"
+          disabled={readOnly}
+          onClick={() => onChange?.(star)}
+          onMouseEnter={() => !readOnly && setHover(star)}
+          onMouseLeave={() => !readOnly && setHover(0)}
+          className={`${readOnly ? "cursor-default" : "cursor-pointer hover:scale-110"} transition-transform`}
+          aria-label={`${star} star${star > 1 ? "s" : ""}`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className={`${sizeClass} transition-colors ${
+              star <= (hover || value)
+                ? "fill-amber-400 text-amber-400"
+                : "fill-brown/15 text-brown/15"
+            }`}
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ─── Toast Component ─── */
+
+function Toast({
+  message,
+  type,
+  onClose,
+}: {
+  message: string;
+  type: "success" | "error";
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 4000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div
+      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 rounded-xl px-6 py-4 shadow-lg border backdrop-blur-sm animate-[slideUp_0.3s_ease-out] ${
+        type === "success"
+          ? "bg-white/95 border-sage/30 text-brown-dark"
+          : "bg-white/95 border-red-200 text-red-700"
+      }`}
+    >
+      {type === "success" ? (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-sage shrink-0">
+          <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-red-500 shrink-0">
+          <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
+        </svg>
+      )}
+      <span className="text-sm font-medium">{message}</span>
+      <button onClick={onClose} className="ml-2 text-text/30 hover:text-text/60 transition-colors" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
+
+
+/* ─── Google Script URL ─── */
+
+const SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT ?? "";
+
+/* ─── Main Contact Page ─── */
+
 export default function ContactPage() {
-  const [form, setForm] = useState({
+  const reviewFormRef = useRef<HTMLDivElement>(null);
+
+  /* ── Enquiry form state ── */
+  const [enquiryForm, setEnquiryForm] = useState({
     name: "",
     phone: "",
+    instagram: "",
     occasion: "",
     message: "",
   });
+  const [enquiryLoading, setEnquiryLoading] = useState(false);
+  const [enquiryContactError, setEnquiryContactError] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  /* ── Review form state ── */
+  const [reviewForm, setReviewForm] = useState({
+    name: "",
+    phone: "",
+    rating: 0,
+    review: "",
+  });
+  const [reviewLoading, setReviewLoading] = useState(false);
+  const [ratingError, setRatingError] = useState(false);
+
+  /* ── Toast state ── */
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+
+
+  /* ── Submit helpers ── */
+
+  async function submitToScript(payload: Record<string, string | number>) {
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+    });
+
+    // no-cors returns opaque response, so we can't read body
+    // We treat a non-error fetch as success
+    return res;
+  }
+
+  /* ── Enquiry form submit ── */
+  const handleEnquirySubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const link = createWhatsappLink(form.name, form.occasion, form.message);
-    window.open(link, "_blank", "noopener,noreferrer");
+
+    // Validate: at least one of phone or instagram
+    if (!enquiryForm.phone.trim() && !enquiryForm.instagram.trim()) {
+      setEnquiryContactError(true);
+      return;
+    }
+    setEnquiryContactError(false);
+
+    setEnquiryLoading(true);
+    try {
+      await submitToScript({
+        type: "enquiry",
+        name: enquiryForm.name.trim(),
+        phone: enquiryForm.phone.trim(),
+        instagram: enquiryForm.instagram.trim(),
+        occasion: enquiryForm.occasion,
+        message: enquiryForm.message.trim(),
+      });
+      setEnquiryForm({ name: "", phone: "", instagram: "", occasion: "", message: "" });
+      setToast({ message: "Your enquiry has been sent! We'll get back to you soon.", type: "success" });
+    } catch {
+      setToast({ message: "Something went wrong. Please try again.", type: "error" });
+    } finally {
+      setEnquiryLoading(false);
+    }
   };
+
+  /* ── Review form submit ── */
+  const handleReviewSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (reviewForm.rating === 0) {
+      setRatingError(true);
+      return;
+    }
+    setRatingError(false);
+
+    setReviewLoading(true);
+    try {
+      await submitToScript({
+        type: "review",
+        name: reviewForm.name.trim(),
+        phone: reviewForm.phone.trim(),
+        rating: reviewForm.rating,
+        review: reviewForm.review.trim(),
+      });
+      setReviewForm({ name: "", phone: "", rating: 0, review: "" });
+      setToast({ message: "Thank you for your review! We appreciate your feedback.", type: "success" });
+    } catch {
+      setToast({ message: "Couldn't submit your review. Please try again.", type: "error" });
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  /* ── Shared input styles ── */
+  const inputClass =
+    "w-full rounded-lg border border-brown/15 bg-white px-4 py-3 text-sm text-text placeholder:text-text/30 focus:border-brown focus:outline-none transition-colors";
+  const labelClass = "block text-xs uppercase tracking-[0.15em] text-text/50 mb-2";
 
   return (
     <>
@@ -143,86 +333,212 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact form */}
-      <section className="pb-16 md:pb-24 px-6" aria-label="Contact form">
-        <div className="mx-auto max-w-xl">
-          <h2 className="font-serif text-2xl md:text-3xl text-brown-dark tracking-wide text-center mb-8">
-            Send Us a Message
-          </h2>
+      {/* ── Forms Section: Enquiry + Review side by side ── */}
+      <section id="review-form" className="pb-16 md:pb-24 px-6" aria-label="Enquiry and Review forms" ref={reviewFormRef}>
+        <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="contact-name" className="block text-xs uppercase tracking-[0.15em] text-text/50 mb-2">
-                Name
-              </label>
-              <input
-                id="contact-name"
-                type="text"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full rounded-lg border border-brown/15 bg-white px-4 py-3 text-sm text-text placeholder:text-text/30 focus:border-brown focus:outline-none"
-                placeholder="Your name"
-              />
-            </div>
+          {/* ── Enquiry Form ── */}
+          <div className="rounded-2xl border border-brown/10 bg-white p-6 sm:p-8">
+            <h2 className="font-serif text-2xl md:text-3xl text-brown-dark tracking-wide text-center mb-8">
+              Send Us a Message
+            </h2>
 
-            <div>
-              <label htmlFor="contact-phone" className="block text-xs uppercase tracking-[0.15em] text-text/50 mb-2">
-                Phone
-              </label>
-              <input
-                id="contact-phone"
-                type="tel"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full rounded-lg border border-brown/15 bg-white px-4 py-3 text-sm text-text placeholder:text-text/30 focus:border-brown focus:outline-none"
-                placeholder="+91 XXXXX XXXXX"
-              />
-            </div>
+            <form onSubmit={handleEnquirySubmit} className="space-y-5" id="enquiry-form">
+              {/* Name */}
+              <div>
+                <label htmlFor="enquiry-name" className={labelClass}>Name *</label>
+                <input
+                  id="enquiry-name"
+                  type="text"
+                  required
+                  value={enquiryForm.name}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })}
+                  className={inputClass}
+                  placeholder="Your name"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="contact-occasion" className="block text-xs uppercase tracking-[0.15em] text-text/50 mb-2">
-                Occasion
-              </label>
-              <select
-                id="contact-occasion"
-                value={form.occasion}
-                onChange={(e) => setForm({ ...form, occasion: e.target.value })}
-                className="w-full rounded-lg border border-brown/15 bg-white px-4 py-3 text-sm text-text focus:border-brown focus:outline-none appearance-none"
+              {/* Phone */}
+              <div>
+                <label htmlFor="enquiry-phone" className={labelClass}>
+                  Phone Number {!enquiryForm.instagram.trim() && <span className="text-brown/70 normal-case tracking-normal">*</span>}
+                </label>
+                <input
+                  id="enquiry-phone"
+                  type="tel"
+                  value={enquiryForm.phone}
+                  onChange={(e) => {
+                    setEnquiryForm({ ...enquiryForm, phone: e.target.value });
+                    if (e.target.value.trim()) setEnquiryContactError(false);
+                  }}
+                  className={`${inputClass} ${enquiryContactError ? "border-red-300" : ""}`}
+                  placeholder="+91 XXXXX XXXXX"
+                />
+              </div>
+
+              {/* Instagram Handle */}
+              <div>
+                <label htmlFor="enquiry-instagram" className={labelClass}>
+                  Instagram Handle {!enquiryForm.phone.trim() && <span className="text-brown/70 normal-case tracking-normal">*</span>}
+                </label>
+                <input
+                  id="enquiry-instagram"
+                  type="text"
+                  value={enquiryForm.instagram}
+                  onChange={(e) => {
+                    setEnquiryForm({ ...enquiryForm, instagram: e.target.value });
+                    if (e.target.value.trim()) setEnquiryContactError(false);
+                  }}
+                  className={`${inputClass} ${enquiryContactError ? "border-red-300" : ""}`}
+                  placeholder="@yourhandle"
+                />
+                {enquiryContactError && (
+                  <p className="mt-1.5 text-xs text-red-500">Please provide at least a phone number or Instagram handle.</p>
+                )}
+              </div>
+
+              {/* Occasion */}
+              <div>
+                <label htmlFor="enquiry-occasion" className={labelClass}>Occasion</label>
+                <select
+                  id="enquiry-occasion"
+                  value={enquiryForm.occasion}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, occasion: e.target.value })}
+                  className={`${inputClass} appearance-none`}
+                >
+                  <option value="">Select an occasion</option>
+                  <option value="Wedding">Wedding</option>
+                  <option value="Trousseau">Trousseau</option>
+                  <option value="Karva Chauth">Karva Chauth</option>
+                  <option value="Festive Gifting">Festive Gifting</option>
+                  <option value="Corporate Gifting">Corporate Gifting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="enquiry-message" className={labelClass}>Message *</label>
+                <textarea
+                  id="enquiry-message"
+                  rows={4}
+                  required
+                  value={enquiryForm.message}
+                  onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
+                  className={`${inputClass} resize-none`}
+                  placeholder="Tell us about your requirements…"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={enquiryLoading}
+                className="w-full rounded-lg bg-brown py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-blush hover:bg-brown-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <option value="">Select an occasion</option>
-                <option value="Wedding">Wedding</option>
-                <option value="Trousseau">Trousseau</option>
-                <option value="Karva Chauth">Karva Chauth</option>
-                <option value="Festive Gifting">Festive Gifting</option>
-                <option value="Corporate Gifting">Corporate Gifting</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+                {enquiryLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Sending…
+                  </span>
+                ) : (
+                  "Send Enquiry"
+                )}
+              </button>
+            </form>
+          </div>
 
-            <div>
-              <label htmlFor="contact-message" className="block text-xs uppercase tracking-[0.15em] text-text/50 mb-2">
-                Message
-              </label>
-              <textarea
-                id="contact-message"
-                rows={4}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full rounded-lg border border-brown/15 bg-white px-4 py-3 text-sm text-text placeholder:text-text/30 focus:border-brown focus:outline-none resize-none"
-                placeholder="Tell us about your requirements…"
-              />
-            </div>
+          {/* ── Review Form ── */}
+          <div className="rounded-2xl border border-brown/10 bg-white p-6 sm:p-8">
+            <h2 className="font-serif text-2xl md:text-3xl text-brown-dark tracking-wide text-center mb-8">
+              Share Your Experience
+            </h2>
 
-            <button
-              type="submit"
-              className="w-full rounded-lg bg-brown py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-blush hover:bg-brown-dark transition-colors"
-            >
-              Send via WhatsApp
-            </button>
-          </form>
+            <form onSubmit={handleReviewSubmit} className="space-y-5" id="review-form">
+              {/* Name */}
+              <div>
+                <label htmlFor="review-name" className={labelClass}>Name *</label>
+                <input
+                  id="review-name"
+                  type="text"
+                  required
+                  value={reviewForm.name}
+                  onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })}
+                  className={inputClass}
+                  placeholder="Your name"
+                />
+              </div>
+
+              {/* Rating */}
+              <div>
+                <label className={labelClass}>Rating *</label>
+                <StarRating
+                  value={reviewForm.rating}
+                  onChange={(v) => {
+                    setReviewForm({ ...reviewForm, rating: v });
+                    setRatingError(false);
+                  }}
+                />
+                {ratingError && (
+                  <p className="mt-1.5 text-xs text-red-500">Please select a star rating.</p>
+                )}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label htmlFor="review-phone" className={labelClass}>Phone Number <span className="text-text/30 normal-case tracking-normal">(optional)</span></label>
+                <input
+                  id="review-phone"
+                  type="tel"
+                  value={reviewForm.phone}
+                  onChange={(e) => setReviewForm({ ...reviewForm, phone: e.target.value })}
+                  className={inputClass}
+                  placeholder="+91 XXXXX XXXXX"
+                />
+              </div>
+
+              {/* Review Message */}
+              <div>
+                <label htmlFor="review-message" className={labelClass}>Review Message <span className="text-text/30 normal-case tracking-normal">(optional)</span></label>
+                <textarea
+                  id="review-message"
+                  rows={4}
+                  value={reviewForm.review}
+                  onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })}
+                  className={`${inputClass} resize-none`}
+                  placeholder="Tell us about your experience…"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={reviewLoading}
+                className="w-full rounded-lg bg-brown py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-blush hover:bg-brown-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {reviewLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Submitting…
+                  </span>
+                ) : (
+                  "Submit Review"
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       </section>
+
+
+      {/* Toast */}
+      {toast && (
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
+      )}
     </>
   );
 }

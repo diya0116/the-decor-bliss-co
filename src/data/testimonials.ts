@@ -2,6 +2,7 @@ export interface Testimonial {
   name: string;
   photo: string;
   review: string;
+  rating?: number;
 }
 
 /**

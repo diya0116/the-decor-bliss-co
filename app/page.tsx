@@ -75,6 +75,16 @@ export default function Home() {
 
       {/* 6. Testimonials */}
       <Testimonials />
+
+      {/* Share Your Experience CTA */}
+      <div className="pb-16 md:pb-24 text-center">
+        <Link
+          href="/contact#review-form"
+          className="inline-flex h-12 items-center justify-center rounded-lg border border-brown/30 px-8 text-xs font-semibold uppercase tracking-[0.2em] text-brown-dark hover:bg-brown/5 transition-colors"
+        >
+          Share Your Experience
+        </Link>
+      </div>
     </>
   );
 }
