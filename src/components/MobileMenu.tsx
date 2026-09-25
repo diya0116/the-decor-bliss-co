@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { whatsappDirectLink } from "@/lib/whatsapp";
+import { gaEvent } from "@/lib/gtag";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -68,7 +69,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               href={whatsappDirectLink()}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={onClose}
+              onClick={() => { gaEvent("whatsapp_click"); onClose(); }}
               className="block font-serif text-2xl tracking-wide text-blush hover:text-blush/70 transition-colors"
             >
               WhatsApp
@@ -81,7 +82,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={onClose}
+              onClick={() => { gaEvent("instagram_click"); onClose(); }}
               className="block font-serif text-2xl tracking-wide text-blush hover:text-blush/70 transition-colors"
             >
               Instagram

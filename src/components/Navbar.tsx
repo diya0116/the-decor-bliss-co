@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { SITE_NAME, INSTAGRAM_URL } from "@/lib/constants";
 import { whatsappDirectLink } from "@/lib/whatsapp";
+import { gaEvent } from "@/lib/gtag";
 import MobileMenu from "./MobileMenu";
 
 const navLinks = [
@@ -59,6 +60,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
+            onClick={() => gaEvent("instagram_click")}
             className="text-blush/80 hover:text-blush transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
@@ -71,6 +73,7 @@ export default function Navbar() {
             href={whatsappDirectLink()}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => gaEvent("whatsapp_click")}
             className="rounded-lg border border-blush/40 px-5 py-2 text-xs uppercase tracking-widest text-blush hover:bg-blush/10 transition-colors"
           >
             WhatsApp
@@ -83,6 +86,7 @@ export default function Navbar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
+          onClick={() => gaEvent("instagram_click")}
           className="flex h-11 w-11 items-center justify-center text-blush lg:hidden"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">

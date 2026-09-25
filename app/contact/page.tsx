@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, type FormEvent } from "react";
 import { EMAIL, ADDRESS, INSTAGRAM_URL, INSTAGRAM_HANDLE, PHONE_DISPLAY, MAPS_URL, WEBSITE_URL } from "@/lib/constants";
+import { gaEvent } from "@/lib/gtag";
 
 /* ─── Contact Info Cards (untouched) ─── */
 
@@ -83,10 +84,16 @@ function ContactCardItem({ card }: { card: ContactCard }) {
   const cardClass =
     "flex flex-col items-center justify-center text-center rounded-xl border border-brown/10 bg-white p-6 hover:border-brown/20 hover:shadow-sm transition-all";
 
+  const handleCardClick = () => {
+    if (card.label === "Phone") gaEvent("phone_call");
+    if (card.label === "Instagram") gaEvent("instagram_click");
+  };
+
   if (card.href) {
     return (
       <a
         href={card.href}
+        onClick={handleCardClick}
         className={cardClass}
         {...(card.external
           ? { target: "_blank", rel: "noopener noreferrer" }
@@ -265,6 +272,7 @@ export default function ContactPage() {
       });
       setEnquiryForm({ name: "", phone: "", instagram: "", occasion: "", message: "" });
       setToast({ message: "Your enquiry has been sent! We'll get back to you soon.", type: "success" });
+      gaEvent("generate_lead");
     } catch {
       setToast({ message: "Something went wrong. Please try again.", type: "error" });
     } finally {
@@ -293,6 +301,7 @@ export default function ContactPage() {
       });
       setReviewForm({ name: "", phone: "", rating: 0, review: "" });
       setToast({ message: "Thank you for your review! We appreciate your feedback.", type: "success" });
+      gaEvent("review_submit");
     } catch {
       setToast({ message: "Couldn't submit your review. Please try again.", type: "error" });
     } finally {

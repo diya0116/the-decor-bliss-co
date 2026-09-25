@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { SITE_NAME, EMAIL, ADDRESS, INSTAGRAM_URL } from "@/lib/constants";
 import { whatsappDirectLink } from "@/lib/whatsapp";
+import { gaEvent } from "@/lib/gtag";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -88,6 +91,7 @@ export default function Footer() {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => gaEvent("instagram_click")}
                   className="hover:text-blush transition-colors"
                 >
                   @thedecorbliss
@@ -98,6 +102,7 @@ export default function Footer() {
                   href={whatsappDirectLink()}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => gaEvent("whatsapp_click")}
                   className="hover:text-blush transition-colors"
                 >
                   WhatsApp

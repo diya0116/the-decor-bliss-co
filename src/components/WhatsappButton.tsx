@@ -1,6 +1,7 @@
 "use client";
 
 import { createWhatsappLink } from "@/lib/whatsapp";
+import { gaEvent } from "@/lib/gtag";
 
 /**
  * Floating WhatsApp button — bottom-right corner.
@@ -15,6 +16,7 @@ export default function WhatsappButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
+      onClick={() => gaEvent("whatsapp_click")}
       className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg hover:opacity-90 transition-opacity"
     >
       {/* WhatsApp SVG icon */}

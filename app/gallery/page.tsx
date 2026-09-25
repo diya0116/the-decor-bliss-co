@@ -3,11 +3,15 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import { galleryImages } from "@/data/gallery";
+import { gaEvent } from "@/lib/gtag";
 
 export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
+  const openLightbox = useCallback((i: number) => {
+    setLightboxIndex(i);
+    gaEvent("gallery_view");
+  }, []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   const goNext = useCallback(() => {
