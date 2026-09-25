@@ -132,11 +132,10 @@ function StarRating({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className={`${sizeClass} transition-colors ${
-              star <= (hover || value)
+            className={`${sizeClass} transition-colors ${star <= (hover || value)
                 ? "fill-amber-400 text-amber-400"
                 : "fill-brown/15 text-brown/15"
-            }`}
+              }`}
           >
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
@@ -164,11 +163,10 @@ function Toast({
 
   return (
     <div
-      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 rounded-xl px-6 py-4 shadow-lg border backdrop-blur-sm animate-[slideUp_0.3s_ease-out] ${
-        type === "success"
+      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 rounded-xl px-6 py-4 shadow-lg border backdrop-blur-sm animate-[slideUp_0.3s_ease-out] ${type === "success"
           ? "bg-white/95 border-sage/30 text-brown-dark"
           : "bg-white/95 border-red-200 text-red-700"
-      }`}
+        }`}
     >
       {type === "success" ? (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-sage shrink-0">
@@ -193,7 +191,10 @@ function Toast({
 
 /* ─── Google Script URL ─── */
 
-const SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT ?? "";
+const SCRIPT_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_SCRIPT ??
+  "https://script.google.com/macros/s/AKfycbxJ8_SEKwJzzvrMo05dt-u9h3N22bpYdMeRGRal68ZpzwLRh_QYB-KYdXLnKsZgnSmu/exec";
+
 
 /* ─── Main Contact Page ─── */
 
